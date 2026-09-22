@@ -35,14 +35,19 @@ PASSWORD: 'strongpassword',    # Your user password
 -- username and password can be changed in config/settings.py
 
 ## Setup instructions
+
 Move to the folder where you want to run the app from.
 
 run:
+
 git clone https://github.com/SlainV/NewsStream.git
 
 move into NewsStream folder
+
 run:
+
 python -m venv venv
+
 .venv/bin/activate.bat (assuming Windows OS)
 
 pip install -r requirements.txt
