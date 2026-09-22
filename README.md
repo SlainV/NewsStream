@@ -23,23 +23,29 @@ A Django-based news publishing platform
 python 3 with pip
 git
 MariaDB
+'NAME': 'newsstream_db',         # Your database name
+'USER': 'newsstream_user',       # Your database user
+'PASSWORD': 'strongpassword',    # Your user password
+ -- username and password can be changed in config/settings.py
 
 ## Setup instructions
-create a target folder and move into it
+Move to the folder where you want to run the app from.
 
 run:
 git clone https://github.com/SlainV/NewsStream.git
 
-move into newsstream folder
+move into NewsStream folder
 run:
 python -m venv venv
-source venv/bin/activate
+.venv/bin/activate.bat (assuming Windows OS)
 
 pip install -r requirements.txt
 
 python manage.py migrate
 
 python manage.py createsuperuser
+
+python manage.py create_groups
 
 After creating the superuser:
 
