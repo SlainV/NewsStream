@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h2>User Details</h2>
+
+<p>
+    <strong>Username:</strong>
+    {{ user_obj.username }}
+</p>
+
+<p>
+    <strong>Email:</strong>
+    {{ user_obj.email }}
+</p>
+
+<h3>Roles</h3>
+
+<h3>Manage Roles</h3>
+
+<form method="post">
+    {% csrf_token %}
+
+    {{ form.as_p }}
+
+    <button type="submit">
+        Save Roles
+    </button>
+</form>
+
+<ul>
+    {% for group in user_obj.groups.all %}
+        <li>{{ group.name }}</li>
+    {% empty %}
+        <li>No roles assigned.</li>
+    {% endfor %}
+</ul>
+
+<h3>Publisher Affiliations</h3>
+
+<ul>
+    {% for publisher in user_obj.publishers.all %}
+        <li>{{ publisher.name }}</li>
+    {% empty %}
+        <li>No publisher affiliations.</li>
+    {% endfor %}
+</ul>
+
+<p>
+    <a href="{% url 'admin_dashboard' %}">
+        Back to Dashboard
+    </a>
+</p>
+
+{% endblock %}

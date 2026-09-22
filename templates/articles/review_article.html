@@ -1,0 +1,12 @@
+<h1>{{ article.title }}</h1>
+
+<p>{{ article.content }}</p>
+
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+
+    <button type="submit">
+        Submit Review
+    </button>
+</form>

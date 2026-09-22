@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Publisher Manager Dashboard</h1>
+
+<p>
+    Create publishers and manage their journalist and editor
+    affiliations.
+</p>
+
+<p>
+    <a href="{% url 'publishers:publisher_create' %}">
+        Create Publisher
+    </a>
+</p>
+
+<hr>
+
+<h2>Publishers</h2>
+
+{% if publishers %}
+{% for publisher in publishers %}
+<section>
+    <h3>{{ publisher.name }}</h3>
+
+    {% if publisher.description %}
+    <p>{{ publisher.description }}</p>
+    {% endif %}
+
+    {% if publisher.website %}
+    <p>
+        Website:
+        <a href="{{ publisher.website }}">
+            {{ publisher.website }}
+        </a>
+    </p>
+    {% endif %}
+
+    <p>
+        Status:
+        {% if publisher.is_active %}
+        Active
+        {% else %}
+        Inactive
+        {% endif %}
+    </p>
+
+<h4>Affiliated staff</h4>
+
+<ul>
+    {% for user in publisher.users.all %}
+        <li>{{ user.username }}</li>
+    {% empty %}
+        <li>No staff members assigned.</li>
+    {% endfor %}
+</ul>
+
+    <p>
+        <a href="{% url 'publishers:publisher_edit' publisher.id %}">
+            Edit Publisher
+        </a>
+
+        |
+
+        <a href="{% url 'publishers:publisher_staff' publisher.id %}">
+            Manage Staff
+        </a>
+    </p>
+</section>
+
+<hr>
+{% endfor %}
+{% else %}
+<p>No publishers have been created yet.</p>
+{% endif %}
+{% endblock %}

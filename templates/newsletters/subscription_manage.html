@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h1>Newsletter Subscriptions</h1>
+
+<p>
+    Choose the publishers and journalists whose approved articles
+    you would like to receive.
+</p>
+
+<section>
+    <h2>Publishers</h2>
+
+    {% for publisher in publishers %}
+        <article>
+            <h3>{{ publisher.name }}</h3>
+
+            {% if publisher.description %}
+                <p>{{ publisher.description }}</p>
+            {% endif %}
+
+            <form method="POST" action="{% url 'newsletters:publisher_subscription_toggle' publisher.id %}">
+                {% csrf_token %}
+
+                {% if publisher.id in subscribed_publisher_ids %}
+                    <p>
+                        <strong>Currently subscribed</strong>
+                    </p>
+
+                    <button type="submit">
+                        Unsubscribe
+                    </button>
+                {% else %}
+                    <button type="submit">
+                        Subscribe
+                    </button>
+                {% endif %}
+            </form>
+        </article>
+    {% empty %}
+        <p>No active publishers are currently available.</p>
+    {% endfor %}
+</section>
+
+<hr>
+
+<section>
+    <h2>Journalists</h2>
+
+    {% for journalist in journalists %}
+        <article>
+            <h3>
+                {% if journalist.get_full_name %}
+                    {{ journalist.get_full_name }}
+                {% else %}
+                    {{ journalist.username }}
+                {% endif %}
+            </h3>
+
+            <p>Username: {{ journalist.username }}</p>
+
+            <form method="POST" action="{% url 'newsletters:journalist_subscription_toggle' journalist.id %}">
+                {% csrf_token %}
+
+                {% if journalist.id in subscribed_journalist_ids %}
+                    <p>
+                        <strong>Currently subscribed</strong>
+                    </p>
+
+                    <button type="submit">
+                        Unsubscribe
+                    </button>
+                {% else %}
+                    <button type="submit">
+                        Subscribe
+                    </button>
+                {% endif %}
+            </form>
+        </article>
+    {% empty %}
+        <p>No journalists are currently available.</p>
+    {% endfor %}
+</section>
+
+{% endblock %}

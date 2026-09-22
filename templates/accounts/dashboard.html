@@ -1,0 +1,85 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h1>Dashboard</h1>
+
+<div class="card">
+    <h2>Welcome {{ user.username }}</h2>
+
+    <p>
+        Use the links below to access the areas available to your account.
+    </p>
+</div>
+
+{% if is_admin %}
+<div class="card">
+    <h3>Administrator</h3>
+
+    <p>
+        Manage users and assign system roles.
+    </p>
+
+    <a href="{% url 'admin_dashboard' %}">
+        Open Administrator Dashboard
+    </a>
+</div>
+{% endif %}
+
+{% if is_publisher_manager %}
+<div class="card">
+    <h3>Publisher Management</h3>
+
+    <p>
+        Manage publishers and staff affiliations.
+    </p>
+
+    <a href="{% url 'publishers:dashboard' %}">
+        Open Publisher Dashboard
+    </a>
+</div>
+{% endif %}
+
+{% if is_journalist %}
+<div class="card">
+    <h3>Journalist Area</h3>
+
+    <p>
+        Create and manage your articles.
+    </p>
+
+    <a href="{% url 'article_list' %}">
+        My Articles
+    </a>
+</div>
+{% endif %}
+
+{% if is_editor %}
+<div class="card">
+    <h3>Editor Area</h3>
+
+    <p>
+        Review submitted articles and record decisions.
+    </p>
+
+    <a href="{% url 'review_queue' %}">
+        Review Queue
+    </a>
+</div>
+{% endif %}
+
+{% if is_reader %}
+<div class="card">
+    <h3>Reader Area</h3>
+
+    <p>
+        Manage your subscriptions to publishers and journalists.
+    </p>
+
+    <a href="{% url 'newsletters:subscription_manage' %}">
+        My Subscriptions
+    </a>
+</div>
+{% endif %}
+
+{% endblock %}

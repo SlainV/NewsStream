@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>{{ page_title }}</h1>
+
+    <form method="post">
+        {% csrf_token %}
+
+        {{ form.non_field_errors }}
+
+        <div>
+            {{ form.name.label_tag }}
+            {{ form.name }}
+            {{ form.name.errors }}
+        </div>
+
+        <div>
+            {{ form.description.label_tag }}
+            {{ form.description }}
+            {{ form.description.errors }}
+        </div>
+
+        <div>
+            {{ form.website.label_tag }}
+            {{ form.website }}
+            {{ form.website.errors }}
+        </div>
+
+        <div>
+            {{ form.is_active }}
+            {{ form.is_active.label_tag }}
+            {{ form.is_active.errors }}
+        </div>
+
+        <button type="submit">
+            {{ button_text }}
+        </button>
+    </form>
+
+    <p>
+        <a href="{% url 'publishers:dashboard' %}">
+            Back to Publisher Dashboard
+        </a>
+    </p>
+{% endblock %}

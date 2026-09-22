@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h1>NewsStream</h1>
+
+<p>Latest approved news articles.</p>
+
+{% for article in articles %}
+    <div class="card">
+        <h2>{{ article.title }}</h2>
+
+        <p>
+            Publisher:
+            {{ article.publisher.name }}
+        </p>
+
+        <p>
+            Category:
+            {{ article.category.name }}
+        </p>
+
+        <p>
+            By {{ article.author.username }}
+        </p>
+
+        <p>
+            {{ article.content|truncatewords:50 }}
+        </p>
+
+        <a href="{% url 'public_article_detail' article.pk %}">
+            Read More
+        </a>
+    </div>
+{% empty %}
+    <div class="card">
+        <p>No approved articles available.</p>
+    </div>
+{% endfor %}
+
+{% endblock %}

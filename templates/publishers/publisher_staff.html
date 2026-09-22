@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>Manage Publisher Staff</h1>
+
+    <h2>{{ publisher.name }}</h2>
+
+    <p>
+        Select the journalists and editors who are affiliated with
+        this publisher.
+    </p>
+
+    <form method="post">
+        {% csrf_token %}
+
+        {{ form.non_field_errors }}
+
+        <fieldset>
+            <legend>{{ form.staff.label }}</legend>
+
+            {% if form.staff.help_text %}
+                <p>{{ form.staff.help_text }}</p>
+            {% endif %}
+
+            {{ form.staff.errors }}
+
+            {% for checkbox in form.staff %}
+                <div>
+                    {{ checkbox.tag }}
+                    <label for="{{ checkbox.id_for_label }}">
+                        {{ checkbox.choice_label }}
+                    </label>
+                </div>
+            {% empty %}
+                <p>
+                    No Journalist or Editor users are currently available.
+                </p>
+            {% endfor %}
+        </fieldset>
+    
+        <button type="submit">
+            Save Staff Affiliations
+        </button>
+    </form>
+
+    <p>
+        <a href="{% url 'publishers:dashboard' %}">
+            Back to Publisher Dashboard
+        </a>
+    </p>
+{% endblock %}

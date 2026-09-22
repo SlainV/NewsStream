@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h2>My Articles</h2>
+
+<p>
+    <a href="{% url 'article_create' %}">
+        Create Article
+    </a>
+</p>
+
+{% for article in articles %}
+
+<div>
+    <h3>
+        <a href="{% url 'article_detail' article.id %}">
+            {{ article.title }}
+        </a>
+    </h3>
+
+    <p>
+        {{ article.publisher.name }}
+    </p>
+
+    <p>
+        Status:
+        {{ article.get_status_display }}
+    </p>
+
+    <p>
+        <a href="{% url 'article_edit' article.id %}">
+            Edit
+        </a>
+    </p>
+
+
+</div>
+
+{% empty %}
+
+<p>No articles yet.</p>
+
+{% endfor %}
+
+{% endblock %}

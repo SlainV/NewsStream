@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h1>News</h1>
+
+<p>Browse all approved news articles.</p>
+
+{% for article in articles %}
+    <div class="card">
+        <h2>{{ article.title }}</h2>
+
+        <p>
+            <strong>Publisher:</strong>
+            {{ article.publisher.name }}
+        </p>
+
+        <p>
+            <strong>Category:</strong>
+            {{ article.category.name }}
+        </p>
+
+        <p>
+            <strong>Author:</strong>
+            {{ article.author.username }}
+        </p>
+
+        <p>
+            {{ article.content|truncatewords:40 }}
+        </p>
+        <a href="{% url 'public_article_detail' article.pk %}">
+            Read More
+        </a>
+    </div>
+{% empty %}
+    <div class="card">
+        <p>No approved articles are currently available.</p>
+    </div>
+{% endfor %}
+
+{% endblock %}

@@ -1,0 +1,99 @@
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}" />
+
+<header>
+    <nav>
+
+        <a href="{% url 'home' %}">Home</a>
+
+        <a href="{% url 'public_article_list' %}">
+            News
+        </a>
+
+        <a href="{% url 'publishers:public_publisher_list' %}">
+            Publishers
+        </a>
+
+        {% if user.is_authenticated %}
+
+        <p>
+            <span> Welcome {{ user.username }}</span>
+
+        {% if user.groups.all %}
+        
+        <div style="font-style: italic;">
+            <p> Your Roles:
+                {% for group in user.groups.all %}
+                <span>
+                    {{ group.name }}
+                </span>
+                {% endfor %}
+                {% endif %}
+        </div>
+        </p>
+
+        <p></p>
+
+
+        <a href="{% url 'article_list' %}">
+            My Articles
+        </a>            
+
+        <a href="{% url 'dashboard' %}">
+            Dashboard
+        </a>
+
+        <a href="{% url 'newsletters:subscription_manage' %}">
+            Newsletter Subscription
+        </a>
+
+        {% if user.is_authenticated and user.is_administrator %}
+        <a href="{% url 'admin_dashboard' %}">
+            Admin Dashboard
+        </a>
+        {% endif %}
+
+
+
+
+        <p>
+        <form action="{% url 'logout' %}" method="POST">
+            {% csrf_token %}
+            <button type="submit">
+                Logout
+            </button>
+        </form>
+        </p>
+
+        {% else %}
+
+        <a href="{% url 'login' %}">
+            Login
+        </a>
+
+        <a href="{% url 'register' %}">
+            Register
+        </a>
+
+        {% endif %}
+
+    </nav>
+</header>
+
+<body>
+    <main class="container">
+
+
+        {% if messages %}
+            {% for message in messages %}
+                <div class="message {{message.tags}}">
+                    <p>{{ message }}</p>
+                </div>
+            {% endfor %}
+        {% endif %}
+
+        {% block content %}
+
+        {% endblock %}
+    </main>
+</body>

@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h1>Publishers</h1>
+
+{% for publisher in publishers %}
+    <div class="card">
+        <h2>{{ publisher.name }}</h2>
+
+        <p>{{ publisher.description }}</p>
+
+        {% if publisher.website %}
+            {{ publisher.website }}
+                Visit Website
+            </a>
+        {% endif %}
+    </div>
+{% empty %}
+    <div class="card">
+        <p>No publishers available.</p>
+    </div>
+{% endfor %}
+
+{% endblock %}

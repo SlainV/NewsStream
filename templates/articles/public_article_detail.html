@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <article class="card article-detail">
+        <h1>{{ article.title }}</h1>
+
+        <div class="article-meta">
+            <p>
+                <strong>Publisher:</strong>
+                {{ article.publisher.name }}
+            </p>
+
+            {% if article.category %}
+                <p>
+                    <strong>Category:</strong>
+                    {{ article.category.name }}
+                </p>
+            {% endif %}
+
+            <p>
+                <strong>Author:</strong>
+                {{ article.author.username }}
+            </p>
+
+            <p>
+                <strong>Published:</strong>
+                {{ article.created_at|date:"d F Y" }}
+            </p>
+        </div>
+
+        <div class="article-content">
+            {{ article.content|linebreaks }}
+        </div>
+    </article>
+
+    <p class="page-actions">
+        <a href="{% url 'public_article_list' %}">
+            Back to News
+        </a>
+
+        <a href="{% url 'home' %}">
+            Back to Home
+        </a>
+    </p>
+{% endblock %}
