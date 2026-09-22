@@ -22,11 +22,17 @@ A Django-based news publishing platform
 ## Installation prerequisites
 python 3 with pip
 git
+
 MariaDB
-'NAME': 'newsstream_db',         # Your database name
-'USER': 'newsstream_user',       # Your database user
-'PASSWORD': 'strongpassword',    # Your user password
- -- username and password can be changed in config/settings.py
+
+NAME: 'newsstream_db',         # Your database name
+
+USER: 'newsstream_user',       # Your database user
+
+PASSWORD: 'strongpassword',    # Your user password
+
+
+-- username and password can be changed in config/settings.py
 
 ## Setup instructions
 Move to the folder where you want to run the app from.
