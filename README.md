@@ -10,7 +10,7 @@ A Django-based news publishing platform
 - Editorial review workflow
 - Newsletter subscriptions
 - REST API
-- Administrator dashboard
+- Administrator dashboard for assigning roles to users.
 
 ## Roles
 - Administrator
@@ -27,17 +27,22 @@ MariaDB
 ## Setup instructions
 create a target folder and move into it
 
-run:
+- Clone the repository from GitHub by running:
 git clone https://github.com/SlainV/NewsStream.git
 
-move into newsstream folder
+- Create the Python Virtual Environment and activate it with:
+cd newsstream
 run:
 python -m venv venv
-source venv/bin/activate
+source venv/bin/activate.bat
 
+- Install the required Python libraries with:
 pip install -r requirements.txt
 
+- Create database tables, relevant user groups and the superuser with:
 python manage.py migrate
+
+python manage.py create_groups
 
 python manage.py createsuperuser
 
