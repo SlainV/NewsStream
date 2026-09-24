@@ -26,7 +26,9 @@ git
 MariaDB
 
 NAME: 'newsstream_db',         # Your database name
+
 USER: 'newsstream_user',       # Your database user
+
 PASSWORD: 'strongpassword',    # Your user password
 
 
