@@ -63,4 +63,4 @@ After creating the superuser:
 1. Run the server: python manage.py runserver
 2. Log into Django Admin. (http://localhost:8000/admin/)
 3. Add the superuser to the Administrator group.
-4. Thereafter manage users via the NewsStream Administrator Dashboard (http://localhost:8000/accounts/admin-dashboard/)
+4. Thereafter manage users via the NewsStream Administrator Dashboard (http://localhost:8000/accounts/admin-dashboard/). Using the Admin Dashboard was a design decision which will not change.
