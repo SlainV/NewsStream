@@ -11,8 +11,19 @@ from .services import approve_article, reject_article
 
 
 @login_required
+@group_required("journalist")
 def article_create(request):
     """Create an article based on the given data."""
+
+    if not request.user.publishers.exists():
+        messages.error(
+            request,
+            "You must be affiliated with a publisher before creating articles."
+        )
+
+        return redirect(
+            "journalist_area"
+        )
 
     if request.method == "POST":
         form = ArticleForm(

@@ -2,9 +2,37 @@
 
 {% block content %}
 
-<h1>NewsStream</h1>
+<h1>Welcome to NewsStream</h1>
 
-<p>Latest approved news articles.</p>
+
+<div class="card">
+    <h2>Explore NewsStream</h2>
+
+    <p>
+        <a href="{% url 'public_article_list' %}">
+        View All News
+        </a>
+    </p>
+
+    <p>
+        <a href="{% url 'publishers:public_publisher_list' %}">
+            Publisher Directory
+        </a>
+    </p>
+
+    <p>
+        <a href="{% url 'newsletters:newsletter_list' %}">
+            Browse Newsletters
+        </a>
+    </p>
+</div>
+
+
+
+<p>
+    Read the latest approved articles from our publishers and journalists.
+</p>
+
 
 {% for article in articles %}
     <div class="card">
@@ -37,5 +65,7 @@
         <p>No approved articles available.</p>
     </div>
 {% endfor %}
+
+
 
 {% endblock %}

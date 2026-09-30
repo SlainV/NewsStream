@@ -1,12 +1,37 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <h1>Journalist Area</h1>
 
-    <p>Welcome, {{ user.username }}.</p>
+<h1>Journalist Dashboard</h1>
+
+<div class="card">
+    <h2>Content Creation</h2>
 
     <p>
-        This area will eventually allow journalists to create and manage
-        their articles.
+        <a href="{% url 'article_create' %}">
+            Create Article
+        </a>
     </p>
+
+    <p>
+        <a href="{% url 'article_list' %}">
+            My Articles
+        </a>
+    </p>
+
+    <p>
+        <a href="{% url 'newsletters:newsletter_create' %}">
+            Create Newsletter
+        </a>
+    </p>
+
+    <p>
+        <a href="{% url 'newsletters:newsletter_list' %}">
+        View Newsletters
+        </a>
+    </p>
+
+
+</div>
+
 {% endblock %}

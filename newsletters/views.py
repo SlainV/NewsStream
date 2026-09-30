@@ -6,7 +6,8 @@ from django.views.decorators.http import require_POST
 
 from publishers.models import Publisher
 
-from .models import JournalistSubscription, PublisherSubscription
+from .models import JournalistSubscription, PublisherSubscription, Newsletter
+from .forms import NewsletterForm
 
 # Create your views here.
 
@@ -116,3 +117,148 @@ def journalist_subscription_toggle(request, journalist_id):
         )
 
     return redirect("newsletters:subscription_manage")
+
+
+@login_required
+def newsletter_create(request):
+    """Create a newsletter."""
+
+    if not request.user.groups.filter(
+        name__in=["Journalist", "Editor"]
+    ).exists():
+        return redirect("dashboard")
+
+    if request.method == "POST":
+        form = NewsletterForm(
+            request.POST,
+            user=request.user,
+        )
+
+        if form.is_valid():
+            newsletter = form.save(
+                commit=False
+            )
+
+            newsletter.author = request.user
+            newsletter.save()
+
+            form.save_m2m()
+
+            messages.success(
+                request,
+                "Newsletter created successfully."
+            )
+
+            return redirect(
+                "newsletters:newsletter_detail",
+                newsletter.id,
+            )
+
+    else:
+        form = NewsletterForm(
+            user=request.user
+        )
+
+    return render(
+        request,
+        "newsletters/newsletter_form.html",
+        {
+            "form": form,
+            "title": "Create Newsletter",
+        },
+    )
+
+
+def newsletter_detail(
+    request,
+    newsletter_id,
+):
+    """Display a newsletter."""
+
+    newsletter = get_object_or_404(
+        Newsletter,
+        id=newsletter_id,
+    )
+
+    return render(
+        request,
+        "newsletters/newsletter_detail.html",
+        {
+            "newsletter": newsletter,
+        },
+    )
+
+
+def newsletter_list(request):
+    """Display all newsletters."""
+
+    newsletters = Newsletter.objects.all()
+
+    return render(
+        request,
+        "newsletters/newsletter_list.html",
+        {
+            "newsletters": newsletters,
+        },
+    )
+
+
+@login_required
+def newsletter_edit(
+    request,
+    newsletter_id,
+):
+    """Edit a newsletter."""
+
+    newsletter = get_object_or_404(
+        Newsletter,
+        id=newsletter_id,
+    )
+
+    is_editor = request.user.groups.filter(
+        name="Editor"
+    ).exists()
+
+    if (
+        newsletter.author != request.user
+        and not is_editor
+    ):
+        return redirect(
+            "newsletters:newsletter_detail",
+            newsletter.id,
+        )
+
+    if request.method == "POST":
+        form = NewsletterForm(
+            request.POST,
+            instance=newsletter,
+            user=request.user,
+        )
+
+        if form.is_valid():
+            form.save()
+
+            messages.success(
+                request,
+                "Newsletter updated successfully."
+            )
+
+            return redirect(
+                "newsletters:newsletter_detail",
+                newsletter.id,
+            )
+
+    else:
+        form = NewsletterForm(
+            instance=newsletter,
+            user=request.user,
+        )
+
+    return render(
+        request,
+        "newsletters/newsletter_form.html",
+        {
+            "form": form,
+            "title": "Edit Newsletter",
+        },
+    )

@@ -1,1 +1,27 @@
-<h1>Editor Area</h1>
+{% extends "base.html" %}
+
+{% block content %}
+
+<h1>Editor Dashboard</h1>
+
+<div class="card">
+    <h2>Editorial Review</h2>
+
+    <p>
+        <a href="{% url 'review_queue' %}">
+            Review Queue
+        </a>
+    </p>
+
+    <p>
+        <a href="{% url 'newsletters:newsletter_create' %}">
+            Create Newsletter
+        </a>
+    </p>
+    <p>
+        <a href="{% url 'newsletters:newsletter_list' %}">
+            View Newsletters
+        </a>
+    </p>
+</div>
+{% endblock %}

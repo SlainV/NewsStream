@@ -1,1 +1,45 @@
-<h1>Publisher Manager Area</h1>
+{% extends "base.html" %}
+
+{% block content %}
+
+<h1>Publisher Manager Dashboard</h1>
+
+<div class="card">
+    <h2>Publisher Management</h2>
+
+    <p>
+        Manage publishers and staff affiliations.
+    </p>
+
+    <p>
+        <a href="{% url 'publishers:publisher_create' %}">
+            Create Publisher
+        </a>
+    </p>
+</div>
+
+{% for publisher in publishers %}
+<div class="card">
+    <h3>{{ publisher.name }}</h3>
+
+    <p>{{ publisher.description }}</p>
+
+    <p>
+        <a href="{% url 'publishers:publisher_edit' publisher.id %}">
+            Edit Publisher
+        </a>
+    </p>
+
+    <p>
+        <a href="{% url 'publishers:publisher_staff' publisher.id %}">
+            Manage Staff Affiliations
+        </a>
+    </p>
+</div>
+{% empty %}
+<div class="card">
+    <p>No publishers assigned.</p>
+</div>
+{% endfor %}
+
+{% endblock %}

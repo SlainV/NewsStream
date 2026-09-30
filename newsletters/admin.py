@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import JournalistSubscription, PublisherSubscription
+from .models import JournalistSubscription, PublisherSubscription, Newsletter
 
 # Register your models here.
 
@@ -8,7 +8,7 @@ from .models import JournalistSubscription, PublisherSubscription
 @admin.register(PublisherSubscription)
 class PublisherSubscriptionAdmin(admin.ModelAdmin):
     """ Manage the publisher subscription through the Admin portal. """
-    
+
     list_display = (
         "subscriber",
         "publisher",
@@ -42,4 +42,22 @@ class JournalistSubscriptionAdmin(admin.ModelAdmin):
     search_fields = (
         "subscriber__username",
         "journalist__username",
+    )
+
+
+@admin.register(Newsletter)
+class NewsletterAdmin(admin.ModelAdmin):
+    list_display = (
+        "title",
+        "author",
+        "created_at",
+    )
+
+    search_fields = (
+        "title",
+        "description",
+    )
+
+    filter_horizontal = (
+        "articles",
     )

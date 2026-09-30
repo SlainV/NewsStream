@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h1>{{ newsletter.title }}</h1>
+
+<p>{{ newsletter.description }}</p>
+
+<p>
+    Created by {{ newsletter.author }}
+</p>
+
+<h2>Articles</h2>
+
+<ul>
+{% for article in newsletter.articles.all %}
+    <li>
+        {{ article.title }}
+    </li>
+{% empty %}
+    <li>No articles selected.</li>
+{% endfor %}
+</ul>
+
+{% if user == newsletter.author %}
+    <p>
+        <a href="{% url 'newsletters:newsletter_edit' newsletter.id %}">
+            Edit Newsletter
+        </a>
+    </p>
+{% endif %}
+
+{% endblock %}

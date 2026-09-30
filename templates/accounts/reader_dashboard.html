@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h1>Reader Dashboard</h1>
+
+<div class="card">
+    <h2>News</h2>
+
+    <p>
+        <a href="{% url 'public_article_list' %}">
+            Browse News
+        </a>
+    </p>
+</div>
+
+<div class="card">
+    <h2>Publishers</h2>
+
+    <p>
+        <a href="{% url 'publishers:public_publisher_list' %}">
+            Publisher Directory
+        </a>
+    </p>
+</div>
+
+<div class="card">
+    <h2>Subscriptions</h2>
+
+    <p>
+        <a href="{% url 'newsletters:subscription_manage' %}">
+            Manage Subscriptions
+        </a>
+    </p>
+</div>
+
+<div class="card">
+    <h2>Newsletters</h2>
+
+    <p>
+        <a href="{% url 'newsletters:newsletter_list' %}">
+            Browse Newsletters
+        </a>
+    </p>
+</div>
+
+{% endblock %}

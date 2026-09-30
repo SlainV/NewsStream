@@ -4,7 +4,6 @@ from django.contrib.auth.models import Group
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404
 from django.contrib.auth import get_user_model
-
 from django.contrib import messages
 
 from .decorators import group_required
@@ -46,35 +45,49 @@ def register(request):
     )
 
 
-from django.contrib.auth.decorators import login_required
-from django.shortcuts import render
+@login_required
+def dashboard(request):
+    user = request.user
+
+    if user.groups.filter(
+        name="Administrator"
+    ).exists():
+        return redirect(
+            "admin_dashboard"
+        )
+
+    if user.groups.filter(
+        name="Publisher Manager"
+    ).exists():
+        return redirect(
+            "publisher_manager_area"
+        )
+
+    if user.groups.filter(
+        name="Editor"
+    ).exists():
+        return redirect(
+            "editor_area"
+        )
+
+    if user.groups.filter(
+        name="Journalist"
+    ).exists():
+        return redirect(
+            "journalist_area"
+        )
+
+    return redirect(
+        "reader_dashboard"
+    )
 
 
 @login_required
-def dashboard(request):
-    """Show the dashboard for a specific user."""
-    context = {
-        "is_admin": request.user.groups.filter(
-            name="Administrator"
-        ).exists(),
-        "is_publisher_manager": request.user.groups.filter(
-            name="Publisher Manager"
-        ).exists(),
-        "is_journalist": request.user.groups.filter(
-            name="Journalist"
-        ).exists(),
-        "is_editor": request.user.groups.filter(
-            name="Editor"
-        ).exists(),
-        "is_reader": request.user.groups.filter(
-            name="Reader"
-        ).exists(),
-    }
-
+@group_required("Reader")
+def reader_dashboard(request):
     return render(
         request,
-        "accounts/dashboard.html",
-        context,
+        "accounts/reader_dashboard.html",
     )
 
 
@@ -90,18 +103,29 @@ def editor_area(request):
 @login_required
 @group_required("Publisher Manager")
 def publisher_manager_area(request):
+    publishers = request.user.publishers.all()
     return render(
         request,
-        "accounts/publisher_manager_area.html"
+        "accounts/publisher_manager_area.html",
+        {
+            "publishers": publishers,
+        },
     )
 
 
 @login_required
 @group_required("Journalist")
 def journalist_area(request):
+    articles = request.user.articles.order_by(
+        "-created_at"
+    )
+
     return render(
         request,
         "accounts/journalist_area.html",
+        {
+            "articles": articles,
+        },
     )
 
 

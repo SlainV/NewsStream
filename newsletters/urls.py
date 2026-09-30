@@ -12,4 +12,12 @@ urlpatterns = [
         "journalists/<int:journalist_id>/toggle/",
         views.journalist_subscription_toggle,
         name="journalist_subscription_toggle"),
+    path("list/", views.newsletter_list,
+         name="newsletter_list"),
+    path("create/", views.newsletter_create,
+         name="newsletter_create"),
+    path("<int:newsletter_id>/", views.newsletter_detail,
+         name="newsletter_detail"),
+    path("<int:newsletter_id>/edit/", views.newsletter_edit,
+         name="newsletter_edit"),
 ]

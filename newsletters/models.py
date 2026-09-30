@@ -2,6 +2,7 @@ from django.conf import settings
 from django.db import models
 
 from publishers.models import Publisher
+from articles.models import Article
 
 # Create your models here.
 
@@ -63,3 +64,34 @@ class JournalistSubscription(models.Model):
             f"{self.subscriber.username} follows "
             f"{self.journalist.username}"
         )
+
+
+class Newsletter(models.Model):
+    """A curated newsletter containing approved articles."""
+
+    title = models.CharField(
+        max_length=200
+    )
+
+    description = models.TextField()
+
+    created_at = models.DateTimeField(
+        auto_now_add=True
+    )
+
+    author = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        related_name="newsletters",
+    )
+
+    articles = models.ManyToManyField(
+        Article,
+        related_name="newsletters",
+    )
+
+    class Meta:
+        ordering = ["-created_at"]
+
+    def __str__(self):
+        return self.title
