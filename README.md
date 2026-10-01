@@ -14,7 +14,7 @@ A Django-based news publishing platform
 
 [System quickstart](#using-the-system)
 
-[[API]](#article-api)
+[API](#article-api)
 
 ## 
 
