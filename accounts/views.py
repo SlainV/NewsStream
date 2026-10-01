@@ -15,20 +15,23 @@ User = get_user_model()
 
 
 def register(request):
-    """Register a new user.
-    If the form is valid, create a new user and log them in.
-    If the form is invalid, display the registration form again. """
+    """
+    Register a new user and add the user to the group
+    matching the selected role.
+    """
     if request.method == "POST":
         form = UserRegistrationForm(request.POST)
 
         if form.is_valid():
             user = form.save()
 
-            reader_group = Group.objects.get(
-                name="Reader"
+            selected_role = form.cleaned_data["role"]
+
+            role_group, created = Group.objects.get_or_create(
+                name=selected_role
             )
-            user.groups.add(reader_group)
-            # automatically adds new registrants as readers
+
+            user.groups.add(role_group)
 
             login(request, user)
 
@@ -157,37 +160,72 @@ def admin_user_detail(request, user_id):
         form = RoleAssignmentForm(request.POST)
 
         if form.is_valid():
-            selected_roles = form.cleaned_data["roles"]
+            selected_role = form.cleaned_data["role"]
+
+            user_obj.role = selected_role
+            user_obj.save()
+
+            managed_groups = [
+                "Reader",
+                "Journalist",
+                "Editor",
+                "Publisher Manager",
+                "Administrator",
+            ]
 
             user_obj.groups.remove(
                 *user_obj.groups.filter(
-                    name__in=[
-                        "Reader",
-                        "Journalist",
-                        "Editor",
-                        "Publisher Manager",
-                    ]
+                    name__in=managed_groups
                 )
             )
 
-            user_obj.groups.add(*selected_roles)
+            group, created = Group.objects.get_or_create(
+                name=selected_role
+            )
 
-            messages.success(request,
-                             "Roles updated successfully.")
+            user_obj.groups.add(group)
+
+            messages.success(
+                request,
+                "Role updated successfully."
+            )
+
+#            selected_roles = form.cleaned_data["roles"]
+
+#            user_obj.groups.remove(
+#                *user_obj.groups.filter(
+#                    name__in=[
+#                        "Reader",
+#                        "Journalist",
+#                        "Editor",
+#                        "Publisher Manager",
+#                    ]
+#                )
+#            )
+
+#            user_obj.groups.add(*selected_roles)
+
+#            messages.success(request,
+#                             "Roles updated successfully.")
 
     else:
         form = RoleAssignmentForm(
-            initial={
-                "roles": user_obj.groups.filter(
-                    name__in=[
-                        "Reader",
-                        "Journalist",
-                        "Editor",
-                        "Publisher Manager",
-                    ]
-                )
-            }
+           initial={
+                "role": user_obj.role
+               }
         )
+#        form = RoleAssignmentForm(
+#            initial={
+#                "roles": user_obj.groups.filter(
+#                    name__in=[
+#                        "Reader",
+#                        "Journalist",
+#                        "Editor",
+#                        "Publisher Manager",
+#                    ]
+#                )
+#            }
+#        )
 
     return render(
        request,

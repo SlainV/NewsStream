@@ -11,7 +11,7 @@ from .services import approve_article, reject_article
 
 
 @login_required
-@group_required("journalist")
+@group_required("Journalist")
 def article_create(request):
     """Create an article based on the given data."""
 
@@ -173,26 +173,26 @@ def review_article(request, article_id):
             #    notes=notes,
             # )
 
-        if action == "approved":
-            approve_article(
-                article=article,
-                editor=request.user,
-                notes=notes,
-            )
+            if action == "approved":
+                approve_article(
+                    article=article,
+                    editor=request.user,
+                    notes=notes,
+                )
 
-        elif action == "rejected":
-            reject_article(
-                article=article,
-                editor=request.user,
-                notes=notes,
-            )
+            elif action == "rejected":
+                reject_article(
+                    article=article,
+                    editor=request.user,
+                    notes=notes,
+                )
 
-            # approve_article(article, request.user)
+                # approve_article(article, request.user)
 
-            messages.success(
-                request,
-                "Review completed.",
-            )
+                messages.success(
+                    request,
+                    "Review completed.",
+                )
 
         return redirect(
             "review_queue"
