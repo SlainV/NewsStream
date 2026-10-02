@@ -3,7 +3,8 @@ from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404, redirect, render
 from django.views.decorators.http import require_POST
-
+from django.core.exceptions import PermissionDenied
+from accounts.decorators import group_required
 from publishers.models import Publisher
 
 from .models import JournalistSubscription, PublisherSubscription, Newsletter
@@ -15,6 +16,7 @@ User = get_user_model()
 
 
 @login_required
+@group_required("Reader")
 def subscription_manage(request):
     """ Manage the subscriptions"""
     publishers = Publisher.objects.filter(
@@ -53,6 +55,7 @@ def subscription_manage(request):
 
 
 @login_required
+@group_required("Reader")
 @require_POST
 def publisher_subscription_toggle(request, publisher_id):
     """ Toggle the publisher subscription. """
@@ -86,6 +89,7 @@ def publisher_subscription_toggle(request, publisher_id):
 
 
 @login_required
+@group_required("Reader")
 @require_POST
 def journalist_subscription_toggle(request, journalist_id):
     """ Toggle the journalist subscription. """
@@ -215,18 +219,11 @@ def newsletter_edit(
         id=newsletter_id,
     )
 
-    is_editor = request.user.groups.filter(
-        name="Editor"
-    ).exists()
-
-    if (
-        newsletter.author != request.user
-        and not is_editor
+    if not user_can_manage_newsletter(
+        request.user,
+        newsletter,
     ):
-        return redirect(
-            "newsletters:newsletter_detail",
-            newsletter.id,
-        )
+        raise PermissionDenied
 
     if request.method == "POST":
         form = NewsletterForm(
@@ -260,5 +257,53 @@ def newsletter_edit(
         {
             "form": form,
             "title": "Edit Newsletter",
+        },
+    )
+
+
+def user_can_manage_newsletter(user, newsletter):
+    """
+    Journalists may manage their own newsletters.
+
+    Editors may manage any newsletter.
+    """
+    return (
+        newsletter.author == user
+        or user.is_editor
+    )
+
+
+@login_required
+def newsletter_delete(request, newsletter_id):
+    """Delete a newsletter the current user is allowed to manage."""
+    newsletter = get_object_or_404(
+        Newsletter,
+        id=newsletter_id,
+    )
+
+    if not user_can_manage_newsletter(
+        request.user,
+        newsletter,
+    ):
+        raise PermissionDenied
+
+    if request.method == "POST":
+        newsletter_title = newsletter.title
+        newsletter.delete()
+
+        messages.success(
+            request,
+            f'Newsletter "{newsletter_title}" deleted successfully.',
+        )
+
+        return redirect(
+            "newsletters:newsletter_list"
+        )
+
+    return render(
+        request,
+        "newsletters/newsletter_confirm_delete.html",
+        {
+            "newsletter": newsletter,
         },
     )

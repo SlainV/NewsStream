@@ -1,46 +1,51 @@
 {% extends "base.html" %}
 
 {% block content %}
+{% if user.is_editor %}
+    <h2>Manage Articles</h2>
+{% else %}
+    <h2>My Articles</h2>
+{% endif %}
 
-<h2>My Articles</h2>
-
-<p>
-    <a href="{% url 'article_create' %}">
-        Create Article
-    </a>
-</p>
+{% if user.is_journalist %}
+    <p>
+        <a href="{% url 'article_create' %}">
+            Create Article
+        </a>
+    </p>
+{% endif %}
 
 {% for article in articles %}
+    <div>
+        <h3>
+            <a href="{% url 'article_detail' article.id %}">
+                {{ article.title }}
+            </a>
+        </h3>
 
-<div>
-    <h3>
-        <a href="{% url 'article_detail' article.id %}">
-            {{ article.title }}
-        </a>
-    </h3>
+        <p>
+            Publisher: {{ article.publisher.name }}
+        </p>
 
-    <p>
-        {{ article.publisher.name }}
-    </p>
+        <p>
+            Author: {{ article.author.username }}
+        </p>
 
-    <p>
-        Status:
-        {{ article.get_status_display }}
-    </p>
+        <p>
+            Status: {{ article.get_status_display }}
+        </p>
 
-    <p>
-        <a href="{% url 'article_edit' article.id %}">
-            Edit
-        </a>
-    </p>
+        <p>
+            <a href="{% url 'article_edit' article.id %}">
+                Edit
+            </a>
 
-
-</div>
-
+            <a href="{% url 'article_delete' article.id %}">
+                Delete
+            </a>
+        </p>
+    </div>
 {% empty %}
-
-<p>No articles yet.</p>
-
+    <p>No articles available.</p>
 {% endfor %}
-
 {% endblock %}

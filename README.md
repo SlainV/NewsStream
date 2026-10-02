@@ -38,9 +38,9 @@ Administrators can update a user's primary role through the application's Admini
 - Publisher Manager
   - Manages Publishers (create, disable Publications, assign Editors and Journalists)
 - Journalist
-  - Submits articles
+  - Submit, edit and delete articles, create, edit and delete own newsletters.
 - Editor
-  - Reviews submitted articles
+  - Reviews submitted articles, edit and delete articles, edit and delete newsletters.
 - Reader
   - Read articles and subscribe to newsletters
 
@@ -144,7 +144,7 @@ Assuming you've completed the installation (on port 8000) and created an Adminis
   
   - a user who will become a Journalist.
   
-  - a user who will becom a Publisher Manager
+  - a user who will become a Publisher Manager
 
 - After registration user roles an be changed by the Admin user on the Admin Dashboard (http://localhost:8000/accounts/admin-dashboard/)
 

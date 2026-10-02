@@ -20,4 +20,6 @@ urlpatterns = [
          name="newsletter_detail"),
     path("<int:newsletter_id>/edit/", views.newsletter_edit,
          name="newsletter_edit"),
+    path("<int:newsletter_id>/delete/", views.newsletter_delete,
+         name="newsletter_delete"),
 ]

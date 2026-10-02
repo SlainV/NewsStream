@@ -1,8 +1,15 @@
 {% extends "base.html" %}
 
 {% block content %}
-
 <h1>Newsletters</h1>
+
+{% if user.is_journalist or user.is_editor %}
+    <p>
+        <a href="{% url 'newsletters:newsletter_create' %}">
+            Create Newsletter
+        </a>
+    </p>
+{% endif %}
 
 <ul>
 {% for newsletter in newsletters %}
@@ -10,10 +17,23 @@
         <a href="{% url 'newsletters:newsletter_detail' newsletter.id %}">
             {{ newsletter.title }}
         </a>
+
+        <span>
+            by {{ newsletter.author.username }}
+        </span>
+
+        {% if user == newsletter.author or user.is_editor %}
+            <a href="{% url 'newsletters:newsletter_edit' newsletter.id %}">
+                Edit
+            </a>
+
+            <a href="{% url 'newsletters:newsletter_delete' newsletter.id %}">
+                Delete
+            </a>
+        {% endif %}
     </li>
 {% empty %}
     <li>No newsletters available.</li>
 {% endfor %}
 </ul>
-
 {% endblock %}

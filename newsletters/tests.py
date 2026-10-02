@@ -17,24 +17,28 @@ User = get_user_model()
 class NewsletterSubscriptionTests(TestCase):
     """Tests for the newsletter subscription views."""
 
-
     def setUp(self):
         self.reader = User.objects.create_user(
             username="reader",
             password="password123",
-            email="reader@test.com"
+            email="reader@test.com",
         )
 
         self.journalist = User.objects.create_user(
             username="journalist",
             password="password123",
-            email="journalist@test.com"
+            email="journalist@test.com",
         )
 
-        journalist_group, created = Group.objects.get_or_create(
+        reader_group, _ = Group.objects.get_or_create(
+            name="Reader"
+        )
+
+        journalist_group, _ = Group.objects.get_or_create(
             name="Journalist"
         )
 
+        self.reader.groups.add(reader_group)
         self.journalist.groups.add(journalist_group)
 
         self.publisher = Publisher.objects.create(

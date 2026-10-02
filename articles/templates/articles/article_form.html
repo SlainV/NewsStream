@@ -1,14 +1,22 @@
 {% extends "base.html" %}
 
 {% block content %}
+{% if article %}
+<h2>Edit Article</h2>
+{% else %}
 <h2>Create Article</h2>
+{% endif %}
 
 <form method="post">
     {% csrf_token %}
     {{ form.as_p }}
 
     <button type="submit">
+        {% if article %}
+        Save Changes
+        {% else %}
         Save Draft
+        {% endif %}
     </button>
 </form>
 

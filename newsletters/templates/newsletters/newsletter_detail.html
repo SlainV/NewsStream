@@ -22,10 +22,14 @@
 {% endfor %}
 </ul>
 
-{% if user == newsletter.author %}
+{% if user == newsletter.author or user.is_editor %}
     <p>
         <a href="{% url 'newsletters:newsletter_edit' newsletter.id %}">
             Edit Newsletter
+        </a>
+
+        <a href="{% url 'newsletters:newsletter_delete' newsletter.id %}">
+            Delete Newsletter
         </a>
     </p>
 {% endif %}

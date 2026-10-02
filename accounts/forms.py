@@ -27,23 +27,6 @@ class UserRegistrationForm(UserCreationForm):
             "role",
         ]
 
-"""
-class RoleAssignmentForm(forms.Form):
-    
-    roles = forms.ModelMultipleChoiceField(
-        queryset=Group.objects.filter(
-            name__in=[
-                "Reader",
-                "Journalist",
-                "Editor",
-                "Publisher Manager",
-            ]
-        ).order_by("name"),
-        widget=forms.CheckboxSelectMultiple,
-        required=False,
-    )
-"""
-
 
 class RoleAssignmentForm(forms.Form):
     role = forms.ChoiceField(

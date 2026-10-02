@@ -1,27 +1,22 @@
 {% extends "base.html" %}
 
 {% block content %}
-
 <h2>{{ article.title }}</h2>
 
 <p>
-    Publisher:
-    {{ article.publisher.name }}
+    Publisher: {{ article.publisher.name }}
 </p>
 
 <p>
-    Category:
-    {{ article.category }}
+    Category: {{ article.category }}
 </p>
 
 <p>
-    Status:
-    {{ article.get_status_display }}
+    Status: {{ article.get_status_display }}
 </p>
 
 <p>
-    Author:
-    {{ article.author.username }}
+    Author: {{ article.author.username }}
 </p>
 
 <hr>
@@ -34,12 +29,15 @@
     <a href="{% url 'article_edit' article.id %}">
         Edit Article
     </a>
+
+    <a href="{% url 'article_delete' article.id %}">
+        Delete Article
+    </a>
 </p>
 
 <p>
     <a href="{% url 'article_list' %}">
-        Back to List
+        Back to Articles
     </a>
 </p>
-
 {% endblock %}

@@ -8,6 +8,8 @@ urlpatterns = [
     path("create/", views.article_create, name="article_create"),
     path("<int:article_id>/", views.article_detail, name="article_detail"),
     path("<int:article_id>/edit/", views.article_edit, name="article_edit"),
+    path("<int:article_id>/delete/", views.article_delete,
+         name="article_delete"),
     path("review/", views.review_queue, name="review_queue"),
     path("review/<int:article_id>/", views.review_article,
          name="review_article"),
