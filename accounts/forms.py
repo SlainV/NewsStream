@@ -13,6 +13,7 @@ class UserRegistrationForm(UserCreationForm):
             (User.Role.READER, "Reader"),
             (User.Role.JOURNALIST, "Journalist"),
             (User.Role.EDITOR, "Editor"),
+            (User.Role.PUBLISHER_MANAGER, "Publisher Manager")
         ],
         initial=User.Role.READER,
         help_text="Choose the type of account you want to register.",

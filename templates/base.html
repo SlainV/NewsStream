@@ -35,25 +35,14 @@
         <p></p>
 
 
-        <a href="{% url 'article_list' %}">
-            My Articles
-        </a>            
-
         <a href="{% url 'dashboard' %}">
             Dashboard
         </a>
-
-        <a href="{% url 'newsletters:subscription_manage' %}">
-            Newsletter Subscription
-        </a>
-
-        {% if user.is_authenticated and user.is_administrator %}
-        <a href="{% url 'admin_dashboard' %}">
-            Admin Dashboard
-        </a>
+        {% if user.is_reader  %}
+            <a href="{% url 'newsletters:subscription_manage' %}">
+                Newsletter Subscription
+            </a>
         {% endif %}
-
-
 
 
         <p>

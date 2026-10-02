@@ -16,8 +16,6 @@ A Django-based news publishing platform
 
 [API](#article-api)
 
-## 
-
 ## Features
 
 - Custom user model
@@ -27,10 +25,7 @@ A Django-based news publishing platform
 - Editorial review workflow
 - Newsletter subscriptions
 - REST API
-- Administrator dashboard for assigning roles to users
 - Role specific dashboard (depends on logged in user role)
-
-## 
 
 ## Roles
 
@@ -38,12 +33,8 @@ Users can register as a Reader, Journalist, or Editor. The selected role is stor
 
 Administrators can update a user's primary role through the application's Administrator Dashboard.
 
-
-
-
-
 - Administrator
-  - Assigns and removes roles of other users
+  - Assigns additional roles to other users
 - Publisher Manager
   - Manages Publishers (create, disable Publications, assign Editors and Journalists)
 - Journalist
@@ -52,8 +43,6 @@ Administrators can update a user's primary role through the application's Admini
   - Reviews submitted articles
 - Reader
   - Read articles and subscribe to newsletters
-
-## 
 
 ## Installation prerequisites
 
@@ -66,14 +55,34 @@ Administrators can update a user's primary role through the application's Admini
 ```
 NAME: 'newsstream_db',      # Your database name
 
-USER: 'newsstream_user',    # Your database user
+USER: 'newsstream_user',    # Your database user (root if no SQL user is created)
 
-PASSWORD: 'strongpassword', # Your user password
+PASSWORD: 'strongpassword', # Your user password (root password if no dedicated user)
 ```
 
--- username and password can be changed in config/settings.py
+-- username and password can be changed in config/settings.py, make sure to adapt it to match your installation settings.
 
-## 
+### Configure MariaDB
+
+After installation of Maria DB, open a terminal and log into a session.
+
+- If MariaDB was not added to the system PATH you may have to run these commands from the /bin/ folder in the MariaDB installation location.
+
+```
+mysql -u root -p
+```
+
+You will be prompted to enter your root password (which was created during MariaDB installation, not related to newsStream)
+
+Create the Database - run:
+
+```
+CREATE DATABASE newsstream_db
+CHARACTER SET utf8mb4
+COLLATE utf8mb4_unicode_ci;
+```
+
+The database is now ready to receive the command to create the relevant tables.
 
 ## Setup instructions
 
@@ -117,10 +126,9 @@ python manage.py runserver
 
 - Log into Django Admin. (http://localhost:8000/admin/)
 
-- Add the superuser to the Administrator group (Users, select Admin, scroll to Groups and move the Administrator role over t the Chosen Groups column.
-- Thereafter manage users via the NewsStream Administrator Dashboard (http://localhost:8000/accounts/admin-dashboard/). Using the Admin Dashboard was a design decision which will not change.
+- Add the superuser to the Administrator group (Click Users, select Admin, scroll to Groups and move the Administrator role over to the Chosen Groups column.
 
-## 
+- Thereafter manage user role change via the NewsStream Administrator Dashboard  if required (http://localhost:8000/accounts/admin-dashboard/). 
 
 ## Using the system
 
@@ -130,13 +138,15 @@ Assuming you've completed the installation (on port 8000) and created an Adminis
 
 - Register (by using http://localhost:8000/accounts/register/)
   
-  - a user who will become a Publication Manager.
+  - a user who will become a Reader.
   
   - a user which will become an Editor.
   
   - a user who will become a Journalist.
+  
+  - a user who will becom a Publisher Manager
 
-- After registration assign the roles to the users using the Admin user on the Admin Dashboard (http://localhost:8000/accounts/admin-dashboard/)
+- After registration user roles an be changed by the Admin user on the Admin Dashboard (http://localhost:8000/accounts/admin-dashboard/)
 
 ### Creating a publication (Publication Manager)
 
@@ -162,13 +172,11 @@ Assuming you've completed the installation (on port 8000) and created an Adminis
 
 ### Newsletter subscription
 
-- You can subscribe to either a Publisher or Journalist.
+- A Reader can subscribe to either a Publisher or Journalist.
 
-- With any logged in role, click 'Newsletter Subscription' from the top navigation.
+- Logged in as Reader, click 'Newsletter Subscription' from the top navigation.
 
 - On the next page all eligible Publications and Journalists are listed, and can be subscribed to by clicking 'Subscribe'.
-
-
 
 ## Article API
 
