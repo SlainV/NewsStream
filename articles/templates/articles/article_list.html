@@ -21,17 +21,21 @@
             <a href="{% url 'article_detail' article.id %}">
                 {{ article.title }}
             </a>
-        </h3>
-
-        <p>
-            Publisher: {{ article.publisher.name }}
-        </p>
-
-        <p>
-            Author: {{ article.author.username }}
-        </p>
-
-        <p>
+            </h3>
+            
+            <p>
+                {% if article.publisher %}
+                {{ article.publisher.name }}
+                {% else %}
+                Independent
+                {% endif %}
+            </p>
+            
+            <p>
+                Author: {{ article.author.username }}
+            </p>
+            
+            <p>
             Status: {{ article.get_status_display }}
         </p>
 

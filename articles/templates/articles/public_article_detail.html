@@ -7,13 +7,17 @@
         <div class="article-meta">
             <p>
                 <strong>Publisher:</strong>
+                {% if article.publisher %}
                 {{ article.publisher.name }}
+                {% else %}
+                Independent
+                {% endif %}
             </p>
-
+        
             {% if article.category %}
-                <p>
-                    <strong>Category:</strong>
-                    {{ article.category.name }}
+            <p>
+                <strong>Category:</strong>
+                {{ article.category.name }}
                 </p>
             {% endif %}
 

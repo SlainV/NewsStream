@@ -9,12 +9,16 @@
 {% for article in articles %}
     <div class="card">
         <h2>{{ article.title }}</h2>
-
+        
         <p>
             <strong>Publisher:</strong>
+            {% if article.publisher %}
             {{ article.publisher.name }}
+            {% else %}
+            Independent
+            {% endif %}
         </p>
-
+        
         <p>
             <strong>Category:</strong>
             {{ article.category.name }}

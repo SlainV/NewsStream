@@ -8,9 +8,14 @@ class ArticleForm(forms.ModelForm):
     def __init__(self, *args, user=None, **kwargs):
         super().__init__(*args, **kwargs)
 
-        if user:
+        self.fields["publisher"].required = False
+        self.fields["publisher"].empty_label = "Independent journalist"
+
+        if user and user.is_journalist:
             self.fields["publisher"].queryset = (
-                user.publishers.all()
+                user.publishers.filter(
+                    is_active=True
+                ).order_by("name")
             )
 
     class Meta:

@@ -39,6 +39,7 @@ Administrators can update a user's primary role through the application's Admini
   - Manages Publishers (create, disable Publications, assign Editors and Journalists)
 - Journalist
   - Submit, edit and delete articles, create, edit and delete own newsletters.
+  - A Journalist can be independent, or write for a publisher.
 - Editor
   - Reviews submitted articles, edit and delete articles, edit and delete newsletters.
 - Reader

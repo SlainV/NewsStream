@@ -37,16 +37,19 @@
 {% for article in articles %}
     <div class="card">
         <h2>{{ article.title }}</h2>
+<p>
+    Publisher:
+    {% if article.publisher %}
+    {{ article.publisher.name }}
+    {% else %}
+    Independent
+    {% endif %}
+</p>
 
-        <p>
-            Publisher:
-            {{ article.publisher.name }}
-        </p>
-
-        <p>
-            Category:
-            {{ article.category.name }}
-        </p>
+<p>
+    Category:
+    {{ article.category.name }}
+</p>
 
         <p>
             By {{ article.author.username }}

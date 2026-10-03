@@ -7,9 +7,9 @@ from django.contrib import messages
 from accounts.decorators import group_required
 from .services import approve_article, reject_article
 from django.core.exceptions import PermissionDenied
-from django.views.decorators.http import require_POST
 
 # Create your views here.
+
 
 def user_can_manage_articles(user):
     """Return True when the user is a Journalist or Editor."""
@@ -40,20 +40,11 @@ def get_manageable_article(user, article_id):
 
     raise PermissionDenied
 
+
 @login_required
 @group_required("Journalist")
 def article_create(request):
     """Create an article based on the given data."""
-
-    if not request.user.publishers.exists():
-        messages.error(
-            request,
-            "You must be affiliated with a publisher before creating articles."
-        )
-
-        return redirect(
-            "journalist_area"
-        )
 
     if request.method == "POST":
         form = ArticleForm(

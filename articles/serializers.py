@@ -13,9 +13,9 @@ class ArticleSerializer(serializers.ModelSerializer):
     )
 
     publisher = serializers.PrimaryKeyRelatedField(
-        queryset=Publisher.objects.filter(
-            is_active=True
-        )
+        queryset=Publisher.objects.filter(is_active=True),
+        required=False,
+        allow_null=True,
     )
 
     category = serializers.PrimaryKeyRelatedField(
